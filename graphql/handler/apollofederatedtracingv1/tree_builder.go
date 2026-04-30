@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"sync"
 	"time"
 
 	"github.com/vektah/gqlparser/v2/gqlerror"
@@ -22,7 +21,6 @@ type TreeBuilder struct {
 
 	startTime *time.Time
 	stopped   bool
-	mu        sync.Mutex
 
 	errorOptions *ErrorOptions
 	logger       tracing_logger.Logger
@@ -172,28 +170,20 @@ func (tb *TreeBuilder) newNode(path *graphql.FieldContext) *generated.Trace_Node
 		self.Id = &generated.Trace_Node_ResponseName{ResponseName: path.Field.Name}
 	}
 
-	// lock the map from being read/written concurrently to avoid panics
-	tb.mu.Lock()
 	nodeRef := tb.nodes[path.Path().String()]
-	// set the values for the node references to help build the tree
 	nodeRef.parent = pn
 	nodeRef.self = self
 
-	// since they are references, we point the parent to it's children nodes
 	nodeRef.parent.Child = append(nodeRef.parent.Child, self)
 	nodeRef.self = self
 	tb.nodes[path.Path().String()] = nodeRef
-	tb.mu.Unlock()
 
 	return self
 }
 
 // ensureParentNode ensures the node isn't orphaned
 func (tb *TreeBuilder) ensureParentNode(path *graphql.FieldContext) *generated.Trace_Node {
-	// lock to read briefly, then unlock to avoid r/w issues
-	tb.mu.Lock()
 	nodeRef := tb.nodes[path.Parent.Path().String()]
-	tb.mu.Unlock()
 
 	if nodeRef.self != nil {
 		return nodeRef.self
@@ -213,14 +203,12 @@ func (tb *TreeBuilder) addProtobufError(
 		tb.logger.Println(errors.New("addProtobufError called after StopTimer"))
 		return
 	}
-	tb.mu.Lock()
 	var nodeRef *generated.Trace_Node
 
 	if tb.nodes[gqlError.Path.String()].self != nil {
 		nodeRef = tb.nodes[gqlError.Path.String()].self
 	} else {
 		tb.logger.Println("Error: Path not found in node map")
-		tb.mu.Unlock()
 		return
 	}
 
@@ -239,7 +227,6 @@ func (tb *TreeBuilder) addProtobufError(
 	gqlJson, err := json.Marshal(gqlError)
 	if err != nil {
 		tb.logger.Println(err)
-		tb.mu.Unlock()
 		return
 	}
 
@@ -248,7 +235,6 @@ func (tb *TreeBuilder) addProtobufError(
 		Location: errorLocations,
 		Json:     string(gqlJson),
 	})
-	tb.mu.Unlock()
 }
 
 func defaultErrorTransform(_ *gqlerror.Error) *gqlerror.Error {

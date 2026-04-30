@@ -3,7 +3,6 @@ package graphql
 import (
 	"hash/fnv"
 	"reflect"
-	"sync"
 
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -15,16 +14,13 @@ type collectFieldsCacheKey struct {
 	satisfiesHash uint64  // Hash of the satisfies array
 }
 
-// collectFieldsCacheStore manages CollectFields cache entries safely.
+// collectFieldsCacheStore manages CollectFields cache entries.
 type collectFieldsCacheStore struct {
-	mu    sync.RWMutex
 	items map[collectFieldsCacheKey][]CollectedField
 }
 
 // Get returns the cached result for the key if present.
 func (s *collectFieldsCacheStore) Get(key collectFieldsCacheKey) ([]CollectedField, bool) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
 	if s.items == nil {
 		return nil, false
 	}
@@ -37,9 +33,6 @@ func (s *collectFieldsCacheStore) Add(
 	key collectFieldsCacheKey,
 	value []CollectedField,
 ) []CollectedField {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
 	if s.items == nil {
 		s.items = make(map[collectFieldsCacheKey][]CollectedField)
 	}
@@ -53,8 +46,6 @@ func (s *collectFieldsCacheStore) Add(
 
 // Len returns the number of cached entries.
 func (s *collectFieldsCacheStore) Len() int {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
 	return len(s.items)
 }
 

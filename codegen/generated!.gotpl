@@ -4,14 +4,10 @@
 {{ reserveImport "io"  }}
 {{ reserveImport "strconv"  }}
 {{ reserveImport "time"  }}
-{{ reserveImport "sync"  }}
-{{ reserveImport "sync/atomic" }}
 {{ reserveImport "errors"  }}
 {{ reserveImport "bytes"  }}
 {{ reserveImport "embed"  }}
 {{ reserveImport "math"  }}
-
-{{ reserveImport "golang.org/x/sync/semaphore"}}
 {{ reserveImport "github.com/vektah/gqlparser/v2" "gqlparser" }}
 {{ reserveImport "github.com/vektah/gqlparser/v2/ast" }}
 {{ reserveImport "github.com/99designs/gqlgen/graphql" }}

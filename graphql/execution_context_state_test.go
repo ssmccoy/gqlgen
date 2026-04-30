@@ -3,9 +3,7 @@ package graphql
 import (
 	"context"
 	"errors"
-	"sync/atomic"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -22,13 +20,9 @@ func newTestExecutionContextState(
 	opCtx *OperationContext,
 	schemaData *ast.Schema,
 	parsedSchema *ast.Schema,
-	deferredResults chan DeferredResult,
 ) *ExecutionContextState[testResolverRoot, testDirectiveRoot, testComplexityRoot] {
 	if opCtx == nil {
 		opCtx = &OperationContext{}
-	}
-	if deferredResults == nil {
-		deferredResults = make(chan DeferredResult, 1)
 	}
 	return NewExecutionContextState[testResolverRoot, testDirectiveRoot, testComplexityRoot](
 		opCtx,
@@ -36,20 +30,7 @@ func newTestExecutionContextState(
 			SchemaData: schemaData,
 		},
 		parsedSchema,
-		deferredResults,
 	)
-}
-
-func receiveDeferredResult(t *testing.T, ch <-chan DeferredResult) DeferredResult {
-	t.Helper()
-
-	select {
-	case res := <-ch:
-		return res
-	case <-time.After(2 * time.Second):
-		t.Fatal("timed out waiting for deferred result")
-		return DeferredResult{}
-	}
 }
 
 func makeSchemaWithType(typeName string) *ast.Schema {
@@ -74,7 +55,6 @@ func TestExecutionContextState_Schema(t *testing.T) {
 		&OperationContext{},
 		schemaData,
 		parsedSchema,
-		nil,
 	)
 
 	assert.Same(t, schemaData, ec.Schema())
@@ -87,7 +67,6 @@ func TestExecutionContextState_Schema_FallsBackToParsedSchema(t *testing.T) {
 		&OperationContext{},
 		nil,
 		parsedSchema,
-		nil,
 	)
 
 	assert.Same(t, parsedSchema, ec.Schema())
@@ -98,7 +77,6 @@ func TestExecutionContextState_IntrospectionDisabled(t *testing.T) {
 		&OperationContext{DisableIntrospection: true},
 		nil,
 		makeSchemaWithType("Foo"),
-		nil,
 	)
 
 	schema, schemaErr := ec.IntrospectSchema()
@@ -117,7 +95,6 @@ func TestExecutionContextState_IntrospectType(t *testing.T) {
 		&OperationContext{},
 		nil,
 		makeSchemaWithType("Foo"),
-		nil,
 	)
 
 	typ, err := ec.IntrospectType("Foo")
@@ -134,12 +111,10 @@ func TestExecutionContextState_IntrospectType(t *testing.T) {
 }
 
 func TestExecutionContextState_ProcessDeferredGroup_IncrementsPendingAndPropagates(t *testing.T) {
-	deferredResults := make(chan DeferredResult, 1)
 	ec := newTestExecutionContextState(
 		&OperationContext{},
 		nil,
 		makeSchemaWithType("Foo"),
-		deferredResults,
 	)
 
 	ctx := WithResponseContext(context.Background(), DefaultErrorPresenter, DefaultRecover)
@@ -158,9 +133,8 @@ func TestExecutionContextState_ProcessDeferredGroup_IncrementsPendingAndPropagat
 		Context:  ctx,
 	})
 
-	assert.Equal(t, int32(1), atomic.LoadInt32(&ec.PendingDeferred))
-
-	result := receiveDeferredResult(t, deferredResults)
+	require.Len(t, ec.DeferredResults, 1)
+	result := ec.DeferredResults[0]
 	assert.Equal(t, path, result.Path)
 	assert.Equal(t, label, result.Label)
 	assert.Same(t, fieldSet, result.Result)
@@ -168,12 +142,10 @@ func TestExecutionContextState_ProcessDeferredGroup_IncrementsPendingAndPropagat
 }
 
 func TestExecutionContextState_ProcessDeferredGroup_NullsOnInvalidAndIsolatesErrors(t *testing.T) {
-	deferredResults := make(chan DeferredResult, 1)
 	ec := newTestExecutionContextState(
 		&OperationContext{},
 		nil,
 		makeSchemaWithType("Foo"),
-		deferredResults,
 	)
 
 	ctx := WithResponseContext(context.Background(), DefaultErrorPresenter, DefaultRecover)
@@ -182,7 +154,7 @@ func TestExecutionContextState_ProcessDeferredGroup_NullsOnInvalidAndIsolatesErr
 	fieldSet := NewFieldSet([]CollectedField{{Field: &ast.Field{Alias: "value"}}})
 	fieldSet.Concurrently(0, func(ctx context.Context) Marshaler {
 		AddError(ctx, errors.New("deferred error"))
-		atomic.AddUint32(&fieldSet.Invalids, 1)
+		fieldSet.Invalids++
 		return MarshalString("ignored")
 	})
 
@@ -193,7 +165,8 @@ func TestExecutionContextState_ProcessDeferredGroup_NullsOnInvalidAndIsolatesErr
 		Context:  ctx,
 	})
 
-	result := receiveDeferredResult(t, deferredResults)
+	require.Len(t, ec.DeferredResults, 1)
+	result := ec.DeferredResults[0]
 	assert.Same(t, Null, result.Result)
 
 	require.Len(t, result.Errors, 1)

@@ -2,7 +2,6 @@ package apollotracing
 
 import (
 	"context"
-	"sync"
 	"time"
 
 	"github.com/vektah/gqlparser/v2/ast"
@@ -14,7 +13,6 @@ type (
 	Tracer struct{}
 
 	TracingExtension struct {
-		mu         sync.Mutex
 		Version    int           `json:"version"`
 		StartTime  time.Time     `json:"startTime"`
 		EndTime    time.Time     `json:"endTime"`
@@ -77,9 +75,7 @@ func (Tracer) InterceptField(ctx context.Context, next graphql.Resolver) (any, e
 			Duration:    end.Sub(start),
 		}
 
-		td.mu.Lock()
 		td.Execution.Resolvers = append(td.Execution.Resolvers, resolver)
-		td.mu.Unlock()
 	}()
 
 	return next(ctx)

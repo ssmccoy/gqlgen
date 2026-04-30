@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"maps"
-	"sync"
 
 	"github.com/vektah/gqlparser/v2/ast"
 	"github.com/vektah/gqlparser/v2/gqlerror"
@@ -52,15 +51,14 @@ type BatchParentGroup struct {
 	// IndexMap is used to remap original array indices to group-specific indices,
 	// which is necessary when items are grouped by concrete type from an interface/union slice.
 	IndexMap map[int]int
-	fields   sync.Map
+	fields   map[string]*BatchFieldResult
 }
 
 // BatchFieldResult represents the cached result of a batch field resolution.
 type BatchFieldResult struct {
-	once    sync.Once
-	done    chan struct{}
-	Results any
-	Err     error
+	resolved bool
+	Results  any
+	Err      error
 }
 
 // WithBatchParents adds a batch parent group to the context.
@@ -78,7 +76,11 @@ func WithBatchParents(
 	} else {
 		groups = make(map[string]*BatchParentGroup, 1)
 	}
-	groups[typeName] = &BatchParentGroup{Parents: parents, IndexMap: indexMap}
+	groups[typeName] = &BatchParentGroup{
+		Parents:  parents,
+		IndexMap: indexMap,
+		fields:   make(map[string]*BatchFieldResult),
+	}
 
 	return context.WithValue(ctx, batchContextKey{}, &BatchParentState{groups: groups})
 }
@@ -100,13 +102,14 @@ func (g *BatchParentGroup) GetFieldResult(
 	if g == nil {
 		return nil
 	}
-	res, _ := g.fields.LoadOrStore(key, &BatchFieldResult{done: make(chan struct{})})
-	result := res.(*BatchFieldResult)
-	result.once.Do(func() {
-		defer close(result.done)
-		result.Results, result.Err = resolve()
-	})
-	<-result.done
+	result, ok := g.fields[key]
+	if ok {
+		return result
+	}
+	result = &BatchFieldResult{}
+	result.Results, result.Err = resolve()
+	result.resolved = true
+	g.fields[key] = result
 	return result
 }
 

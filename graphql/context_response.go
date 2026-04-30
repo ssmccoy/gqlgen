@@ -3,7 +3,6 @@ package graphql
 import (
 	"context"
 	"fmt"
-	"sync"
 
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
@@ -12,11 +11,9 @@ type responseContext struct {
 	errorPresenter ErrorPresenterFunc
 	recover        RecoverFunc
 
-	errors   gqlerror.List
-	errorsMu sync.Mutex
+	errors gqlerror.List
 
-	extensions   map[string]any
-	extensionsMu sync.Mutex
+	extensions map[string]any
 }
 
 const resultCtx key = "result_context"
@@ -65,8 +62,6 @@ func AddError(ctx context.Context, err error) {
 		return
 	}
 
-	c.errorsMu.Lock()
-	defer c.errorsMu.Unlock()
 	c.errors = append(c.errors, presentedError)
 }
 
@@ -78,9 +73,6 @@ func Recover(ctx context.Context, err any) (userMessage error) {
 // HasFieldError returns true if the given field has already errored
 func HasFieldError(ctx context.Context, rctx *FieldContext) bool {
 	c := getResponseContext(ctx)
-
-	c.errorsMu.Lock()
-	defer c.errorsMu.Unlock()
 
 	if len(c.errors) == 0 {
 		return false
@@ -99,9 +91,6 @@ func HasFieldError(ctx context.Context, rctx *FieldContext) bool {
 func GetFieldErrors(ctx context.Context, rctx *FieldContext) gqlerror.List {
 	c := getResponseContext(ctx)
 
-	c.errorsMu.Lock()
-	defer c.errorsMu.Unlock()
-
 	if len(c.errors) == 0 {
 		return nil
 	}
@@ -118,8 +107,6 @@ func GetFieldErrors(ctx context.Context, rctx *FieldContext) gqlerror.List {
 
 func GetErrors(ctx context.Context) gqlerror.List {
 	resCtx := getResponseContext(ctx)
-	resCtx.errorsMu.Lock()
-	defer resCtx.errorsMu.Unlock()
 
 	if len(resCtx.errors) == 0 {
 		return nil
@@ -137,8 +124,6 @@ func GetErrors(ctx context.Context) gqlerror.List {
 // RegisterExtension allows you to add a new extension into the graphql response
 func RegisterExtension(ctx context.Context, key string, value any) {
 	c := getResponseContext(ctx)
-	c.extensionsMu.Lock()
-	defer c.extensionsMu.Unlock()
 
 	if c.extensions == nil {
 		c.extensions = make(map[string]any)

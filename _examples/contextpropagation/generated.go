@@ -1716,30 +1716,26 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				}()
 				res = ec._Query_testTodo(ctx, field)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
 
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx,
+				func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "__type":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___type(ctx, field)
 			})
 			if out.Values[i] == graphql.RequiredNull {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "__schema":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___schema(ctx, field)
 			})
 			if out.Values[i] == graphql.RequiredNull {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -1830,7 +1826,7 @@ func (ec *executionContext) _TodoContext(ctx context.Context, sel ast.SelectionS
 				}()
 				res = ec._TodoContext_value(ctx, field, obj)
 				if res == graphql.RequiredNull {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -1849,12 +1845,10 @@ func (ec *executionContext) _TodoContext(ctx context.Context, sel ast.SelectionS
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

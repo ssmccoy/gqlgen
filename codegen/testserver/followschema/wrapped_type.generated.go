@@ -235,7 +235,7 @@ func (ec *executionContext) _WrappedMap(ctx context.Context, sel ast.SelectionSe
 				}()
 				res = ec._WrappedMap_get(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -254,12 +254,10 @@ func (ec *executionContext) _WrappedMap(ctx context.Context, sel ast.SelectionSe
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -305,7 +303,7 @@ func (ec *executionContext) _WrappedSlice(ctx context.Context, sel ast.Selection
 				}()
 				res = ec._WrappedSlice_get(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -324,12 +322,10 @@ func (ec *executionContext) _WrappedSlice(ctx context.Context, sel ast.Selection
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

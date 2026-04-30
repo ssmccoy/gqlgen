@@ -208,7 +208,7 @@ func (ec *executionContext) _Panics(ctx context.Context, sel ast.SelectionSet, o
 				}()
 				res = ec._Panics_fieldScalarMarshal(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -227,12 +227,10 @@ func (ec *executionContext) _Panics(ctx context.Context, sel ast.SelectionSet, o
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "fieldFuncMarshal":
 			field := field
 
@@ -244,7 +242,7 @@ func (ec *executionContext) _Panics(ctx context.Context, sel ast.SelectionSet, o
 				}()
 				res = ec._Panics_fieldFuncMarshal(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -263,12 +261,10 @@ func (ec *executionContext) _Panics(ctx context.Context, sel ast.SelectionSet, o
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "argUnmarshal":
 			field := field
 
@@ -280,7 +276,7 @@ func (ec *executionContext) _Panics(ctx context.Context, sel ast.SelectionSet, o
 				}()
 				res = ec._Panics_argUnmarshal(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -299,12 +295,10 @@ func (ec *executionContext) _Panics(ctx context.Context, sel ast.SelectionSet, o
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

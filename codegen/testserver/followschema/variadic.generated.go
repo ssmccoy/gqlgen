@@ -117,7 +117,7 @@ func (ec *executionContext) _VariadicModel(ctx context.Context, sel ast.Selectio
 				}()
 				res = ec._VariadicModel_value(ctx, field, obj)
 				if res == graphql.RequiredNull {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -136,12 +136,10 @@ func (ec *executionContext) _VariadicModel(ctx context.Context, sel ast.Selectio
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

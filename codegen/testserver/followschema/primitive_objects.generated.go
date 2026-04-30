@@ -191,7 +191,7 @@ func (ec *executionContext) _Primitive(ctx context.Context, sel ast.SelectionSet
 				}()
 				res = ec._Primitive_value(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -210,16 +210,14 @@ func (ec *executionContext) _Primitive(ctx context.Context, sel ast.SelectionSet
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "squared":
 			out.Values[i] = ec._Primitive_squared(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -266,7 +264,7 @@ func (ec *executionContext) _PrimitiveString(ctx context.Context, sel ast.Select
 				}()
 				res = ec._PrimitiveString_value(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -285,16 +283,14 @@ func (ec *executionContext) _PrimitiveString(ctx context.Context, sel ast.Select
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "doubled":
 			out.Values[i] = ec._PrimitiveString_doubled(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "len":
 			field := field
@@ -307,7 +303,7 @@ func (ec *executionContext) _PrimitiveString(ctx context.Context, sel ast.Select
 				}()
 				res = ec._PrimitiveString_len(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -326,12 +322,10 @@ func (ec *executionContext) _PrimitiveString(ctx context.Context, sel ast.Select
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

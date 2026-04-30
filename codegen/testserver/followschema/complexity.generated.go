@@ -178,12 +178,12 @@ func (ec *executionContext) _OverlappingFields(ctx context.Context, sel ast.Sele
 		case "oneFoo":
 			out.Values[i] = ec._OverlappingFields_oneFoo(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "twoFoo":
 			out.Values[i] = ec._OverlappingFields_twoFoo(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "oldFoo":
 			field := field
@@ -196,7 +196,7 @@ func (ec *executionContext) _OverlappingFields(ctx context.Context, sel ast.Sele
 				}()
 				res = ec._OverlappingFields_oldFoo(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -215,21 +215,19 @@ func (ec *executionContext) _OverlappingFields(ctx context.Context, sel ast.Sele
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "newFoo":
 			out.Values[i] = ec._OverlappingFields_newFoo(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "new_foo":
 			out.Values[i] = ec._OverlappingFields_new_foo(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))

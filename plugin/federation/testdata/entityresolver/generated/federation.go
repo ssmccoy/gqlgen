@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-	"sync"
 
 	"github.com/99designs/gqlgen/plugin/federation/fedruntime"
 	"github.com/99designs/gqlgen/plugin/federation/testdata/entityresolver/generated/model"
@@ -42,26 +41,10 @@ func (ec *executionContext) __resolve_entities(ctx context.Context, representati
 
 	repsMap := ec.buildRepresentationGroups(ctx, representations)
 
-	switch len(repsMap) {
-	case 0:
-		return list
-	case 1:
-		for typeName, reps := range repsMap {
-			ec.resolveEntityGroup(ctx, typeName, reps, list)
-		}
-		return list
-	default:
-		var g sync.WaitGroup
-		g.Add(len(repsMap))
-		for typeName, reps := range repsMap {
-			go func(typeName string, reps []EntityWithIndex) {
-				ec.resolveEntityGroup(ctx, typeName, reps, list)
-				g.Done()
-			}(typeName, reps)
-		}
-		g.Wait()
-		return list
+	for typeName, reps := range repsMap {
+		ec.resolveEntityGroup(ctx, typeName, reps, list)
 	}
+	return list
 }
 
 type EntityWithIndex struct {
@@ -113,23 +96,14 @@ func (ec *executionContext) resolveEntityGroup(
 			ec.Error(ctx, err)
 		}
 	} else {
-		// if there are multiple entities to resolve, parallelize (similar to
-		// graphql.FieldSet.Dispatch)
-		var e sync.WaitGroup
-		e.Add(len(reps))
-		for i, rep := range reps {
-			i, rep := i, rep
-			go func(i int, rep EntityWithIndex) {
-				entity, err := ec.resolveEntity(ctx, typeName, rep.entity)
-				if err != nil {
-					ec.Error(ctx, err)
-				} else {
-					list[rep.index] = entity
-				}
-				e.Done()
-			}(i, rep)
+		for _, rep := range reps {
+			entity, err := ec.resolveEntity(ctx, typeName, rep.entity)
+			if err != nil {
+				ec.Error(ctx, err)
+			} else {
+				list[rep.index] = entity
+			}
 		}
-		e.Wait()
 	}
 }
 

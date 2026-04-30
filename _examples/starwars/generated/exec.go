@@ -3735,12 +3735,12 @@ func (ec *executionContext) _Droid(ctx context.Context, sel ast.SelectionSet, ob
 		case "id":
 			out.Values[i] = ec._Droid_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "name":
 			out.Values[i] = ec._Droid_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "friends":
 			field := field
@@ -3769,12 +3769,10 @@ func (ec *executionContext) _Droid(ctx context.Context, sel ast.SelectionSet, ob
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "friendsConnection":
 			field := field
 
@@ -3786,7 +3784,7 @@ func (ec *executionContext) _Droid(ctx context.Context, sel ast.SelectionSet, ob
 				}()
 				res = ec._Droid_friendsConnection(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -3805,16 +3803,14 @@ func (ec *executionContext) _Droid(ctx context.Context, sel ast.SelectionSet, ob
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "appearsIn":
 			out.Values[i] = ec._Droid_appearsIn(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "primaryFunction":
 			out.Values[i] = ec._Droid_primaryFunction(ctx, field, obj)
@@ -3855,7 +3851,7 @@ func (ec *executionContext) _FriendsConnection(ctx context.Context, sel ast.Sele
 		case "totalCount":
 			out.Values[i] = ec._FriendsConnection_totalCount(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "edges":
 			field := field
@@ -3884,12 +3880,10 @@ func (ec *executionContext) _FriendsConnection(ctx context.Context, sel ast.Sele
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "friends":
 			field := field
 
@@ -3917,16 +3911,14 @@ func (ec *executionContext) _FriendsConnection(ctx context.Context, sel ast.Sele
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "pageInfo":
 			out.Values[i] = ec._FriendsConnection_pageInfo(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -4006,17 +3998,17 @@ func (ec *executionContext) _Human(ctx context.Context, sel ast.SelectionSet, ob
 		case "id":
 			out.Values[i] = ec._Human_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "name":
 			out.Values[i] = ec._Human_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "height":
 			out.Values[i] = ec._Human_height(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "mass":
 			out.Values[i] = ec._Human_mass(ctx, field, obj)
@@ -4047,12 +4039,10 @@ func (ec *executionContext) _Human(ctx context.Context, sel ast.SelectionSet, ob
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "friendsConnection":
 			field := field
 
@@ -4064,7 +4054,7 @@ func (ec *executionContext) _Human(ctx context.Context, sel ast.SelectionSet, ob
 				}()
 				res = ec._Human_friendsConnection(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -4083,16 +4073,14 @@ func (ec *executionContext) _Human(ctx context.Context, sel ast.SelectionSet, ob
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "appearsIn":
 			out.Values[i] = ec._Human_appearsIn(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "starships":
 			field := field
@@ -4121,21 +4109,19 @@ func (ec *executionContext) _Human(ctx context.Context, sel ast.SelectionSet, ob
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "query":
 			out.Values[i] = ec._Human_query(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "mutation":
 			out.Values[i] = ec._Human_mutation(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -4180,9 +4166,20 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
 		case "createReview":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createReview(ctx, field)
-			})
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Mutation_createReview(ctx, field)
+				return res
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx,
+				func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -4287,12 +4284,8 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				return res
 			}
 
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx,
+				func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "reviews":
 			field := field
 
@@ -4304,17 +4297,13 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				}()
 				res = ec._Query_reviews(ctx, field)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
 
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx,
+				func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "search":
 			field := field
 
@@ -4326,17 +4315,13 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				}()
 				res = ec._Query_search(ctx, field)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
 
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx,
+				func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "character":
 			field := field
 
@@ -4350,12 +4335,8 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				return res
 			}
 
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx,
+				func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "droid":
 			field := field
 
@@ -4369,12 +4350,8 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				return res
 			}
 
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx,
+				func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "human":
 			field := field
 
@@ -4388,12 +4365,8 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				return res
 			}
 
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx,
+				func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "starship":
 			field := field
 
@@ -4407,12 +4380,8 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				return res
 			}
 
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx,
+				func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "__type":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___type(ctx, field)
@@ -4501,12 +4470,12 @@ func (ec *executionContext) _Starship(ctx context.Context, sel ast.SelectionSet,
 		case "id":
 			out.Values[i] = ec._Starship_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "name":
 			out.Values[i] = ec._Starship_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "length":
 			field := field
@@ -4519,7 +4488,7 @@ func (ec *executionContext) _Starship(ctx context.Context, sel ast.SelectionSet,
 				}()
 				res = ec._Starship_length(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -4538,16 +4507,14 @@ func (ec *executionContext) _Starship(ctx context.Context, sel ast.SelectionSet,
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "history":
 			out.Values[i] = ec._Starship_history(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))

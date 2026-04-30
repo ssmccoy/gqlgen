@@ -128,12 +128,12 @@ func (ec *executionContext) _DeferModel(ctx context.Context, sel ast.SelectionSe
 		case "id":
 			out.Values[i] = ec._DeferModel_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "name":
 			out.Values[i] = ec._DeferModel_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "values":
 			field := field
@@ -146,7 +146,7 @@ func (ec *executionContext) _DeferModel(ctx context.Context, sel ast.SelectionSe
 				}()
 				res = ec._DeferModel_values(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -165,12 +165,10 @@ func (ec *executionContext) _DeferModel(ctx context.Context, sel ast.SelectionSe
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

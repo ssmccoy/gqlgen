@@ -386,7 +386,7 @@ func (ec *executionContext) _Errors(ctx context.Context, sel ast.SelectionSet, o
 				}()
 				res = ec._Errors_a(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -405,12 +405,10 @@ func (ec *executionContext) _Errors(ctx context.Context, sel ast.SelectionSet, o
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "b":
 			field := field
 
@@ -422,7 +420,7 @@ func (ec *executionContext) _Errors(ctx context.Context, sel ast.SelectionSet, o
 				}()
 				res = ec._Errors_b(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -441,12 +439,10 @@ func (ec *executionContext) _Errors(ctx context.Context, sel ast.SelectionSet, o
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "c":
 			field := field
 
@@ -458,7 +454,7 @@ func (ec *executionContext) _Errors(ctx context.Context, sel ast.SelectionSet, o
 				}()
 				res = ec._Errors_c(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -477,12 +473,10 @@ func (ec *executionContext) _Errors(ctx context.Context, sel ast.SelectionSet, o
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "d":
 			field := field
 
@@ -494,7 +488,7 @@ func (ec *executionContext) _Errors(ctx context.Context, sel ast.SelectionSet, o
 				}()
 				res = ec._Errors_d(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -513,12 +507,10 @@ func (ec *executionContext) _Errors(ctx context.Context, sel ast.SelectionSet, o
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		case "e":
 			field := field
 
@@ -530,7 +522,7 @@ func (ec *executionContext) _Errors(ctx context.Context, sel ast.SelectionSet, o
 				}()
 				res = ec._Errors_e(ctx, field, obj)
 				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
+					fs.Invalids++
 				}
 				return res
 			}
@@ -549,12 +541,10 @@ func (ec *executionContext) _Errors(ctx context.Context, sel ast.SelectionSet, o
 					return innerFunc(ctx, dfs)
 				})
 
-				// don't run the out.Concurrently() call below
 				out.Values[i] = graphql.Null
 				continue
 			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			out.Values[i] = innerFunc(ctx, out)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

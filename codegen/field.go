@@ -598,10 +598,7 @@ func (f *Field) IsMap() bool {
 }
 
 func (f *Field) IsConcurrent() bool {
-	if f.Object.DisableConcurrency {
-		return false
-	}
-	return f.MethodHasContext || f.IsResolver
+	return false
 }
 
 // IsBatch returns true if this field has batch resolver enabled.

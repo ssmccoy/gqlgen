@@ -2,10 +2,6 @@ package graphql
 
 import (
 	"context"
-	"sync"
-	"sync/atomic"
-
-	"golang.org/x/sync/semaphore"
 )
 
 // MarshalSliceConcurrently marshals a slice of elements concurrently, writing
@@ -52,55 +48,28 @@ func MarshalSliceConcurrently(
 		return ret
 	}
 
-	// Multiple elements: use goroutines.
-	var wg sync.WaitGroup
-	var sm *semaphore.Weighted
-	if workerLimit > 0 {
-		sm = semaphore.NewWeighted(workerLimit)
-	}
-
-	// retNilFlag is used to signal from any goroutine that the result should
-	// be nil (e.g. on panic). We use atomic to avoid data races.
-	var retNilFlag atomic.Bool
-
 	for i := range length {
 		fc := &FieldContext{
 			Index: &i,
 		}
 		childCtx := WithFieldContext(ctx, fc)
 
-		f := func(i int) {
-			defer wg.Done()
-			if sm != nil {
-				defer sm.Release(1)
-			}
-			if !omitPanicHandler {
+		if omitPanicHandler {
+			ret[i] = marshalElement(childCtx, i)
+		} else {
+			func() {
 				defer func() {
 					if r := recover(); r != nil {
 						AddError(childCtx, Recover(childCtx, r))
-						retNilFlag.Store(true)
+						ret = nil
 					}
 				}()
-			}
-			ret[i] = marshalElement(childCtx, i)
-		}
-
-		if sm != nil {
-			if err := sm.Acquire(ctx, 1); err != nil {
-				AddError(childCtx, ctx.Err())
-				retNilFlag.Store(true)
-				break
+				ret[i] = marshalElement(childCtx, i)
+			}()
+			if ret == nil {
+				return nil
 			}
 		}
-
-		wg.Add(1)
-		go f(i)
-	}
-
-	wg.Wait()
-
-	if retNilFlag.Load() {
-		return nil
 	}
 	return ret
 }

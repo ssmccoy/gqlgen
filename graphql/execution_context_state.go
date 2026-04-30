@@ -2,7 +2,6 @@ package graphql
 
 import (
 	"errors"
-	"sync/atomic"
 
 	"github.com/vektah/gqlparser/v2/ast"
 
@@ -16,21 +15,18 @@ type ExecutionContextState[R any, D any, C any] struct {
 	*ExecutableSchemaState[R, D, C]
 	ParsedSchema    *ast.Schema
 	Deferred        int32
-	PendingDeferred int32
-	DeferredResults chan DeferredResult
+	DeferredResults []DeferredResult
 }
 
 func NewExecutionContextState[R any, D any, C any](
 	operationContext *OperationContext,
 	executableSchemaState *ExecutableSchemaState[R, D, C],
 	parsedSchema *ast.Schema,
-	deferredResults chan DeferredResult,
 ) *ExecutionContextState[R, D, C] {
 	return &ExecutionContextState[R, D, C]{
 		OperationContext:      operationContext,
 		ExecutableSchemaState: executableSchemaState,
 		ParsedSchema:          parsedSchema,
-		DeferredResults:       deferredResults,
 	}
 }
 
@@ -42,22 +38,18 @@ func (ec *ExecutionContextState[R, D, C]) Schema() *ast.Schema {
 }
 
 func (ec *ExecutionContextState[R, D, C]) ProcessDeferredGroup(dg DeferredGroup) {
-	atomic.AddInt32(&ec.PendingDeferred, 1)
-	go func() {
-		ctx := WithFreshResponseContext(dg.Context)
-		dg.FieldSet.Dispatch(ctx)
-		ds := DeferredResult{
-			Path:   dg.Path,
-			Label:  dg.Label,
-			Result: dg.FieldSet,
-			Errors: GetErrors(ctx),
-		}
-		// null fields should bubble up
-		if dg.FieldSet.Invalids > 0 {
-			ds.Result = Null
-		}
-		ec.DeferredResults <- ds
-	}()
+	ctx := WithFreshResponseContext(dg.Context)
+	dg.FieldSet.Dispatch(ctx)
+	ds := DeferredResult{
+		Path:   dg.Path,
+		Label:  dg.Label,
+		Result: dg.FieldSet,
+		Errors: GetErrors(ctx),
+	}
+	if dg.FieldSet.Invalids > 0 {
+		ds.Result = Null
+	}
+	ec.DeferredResults = append(ec.DeferredResults, ds)
 }
 
 func (ec *ExecutionContextState[R, D, C]) IntrospectSchema() (*introspection.Schema, error) {

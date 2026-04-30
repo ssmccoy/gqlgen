@@ -169,9 +169,6 @@ func (o *Object) IsConcurrent() bool {
 // counter for this object's field set. Concurrent objects require atomic
 // access; sequential objects use a plain increment.
 func (o *Object) InvalidsIncrement(fieldSetVar string) string {
-	if o.IsConcurrent() {
-		return fmt.Sprintf("atomic.AddUint32(&%s.Invalids, 1)", fieldSetVar)
-	}
 	return fieldSetVar + ".Invalids++"
 }
 

@@ -1770,14 +1770,14 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				return ec._Query___type(ctx, field)
 			})
 			if out.Values[i] == graphql.RequiredNull {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "__schema":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___schema(ctx, field)
 			})
 			if out.Values[i] == graphql.RequiredNull {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))

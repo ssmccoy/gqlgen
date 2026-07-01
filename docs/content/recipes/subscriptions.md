@@ -39,9 +39,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/handler/transport"
-	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/ssmccoy/gqlgen/graphql/handler"
+	"github.com/ssmccoy/gqlgen/graphql/handler/transport"
+	"github.com/ssmccoy/gqlgen/graphql/playground"
 	"github.com/example/test/graph"
 	"github.com/example/test/graph/generated"
 )
@@ -90,7 +90,7 @@ import (
 	"time"
 
 	coderws "github.com/coder/websocket"
-	"github.com/99designs/gqlgen/graphql/handler/transport"
+	"github.com/ssmccoy/gqlgen/graphql/handler/transport"
 )
 
 srv.AddTransport(transport.Websocket{
@@ -169,7 +169,7 @@ When a client sends a message that exceeds the limit, the default Gorilla-backed
 the connection immediately without processing the payload. Custom websocket adapters should
 implement `transport.WebsocketReadLimiter` to preserve this behavior.
 
-[code]: https://github.com/99designs/gqlgen/blob/master/graphql/handler/transport/websocket.go
+[code]: https://github.com/ssmccoy/gqlgen/blob/master/graphql/handler/transport/websocket.go
 [gorilla]: https://pkg.go.dev/github.com/gorilla/websocket
 [coder-websocket]: https://pkg.go.dev/github.com/coder/websocket
 [graphql-ws]: https://github.com/enisdenjo/graphql-ws/blob/master/PROTOCOL.md
@@ -348,9 +348,9 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/handler/transport"
-	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/ssmccoy/gqlgen/graphql/handler"
+	"github.com/ssmccoy/gqlgen/graphql/handler/transport"
+	"github.com/ssmccoy/gqlgen/graphql/playground"
 	"github.com/example/test/graph"
 	"github.com/example/test/graph/generated"
 )

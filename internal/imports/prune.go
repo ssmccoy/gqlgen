@@ -15,7 +15,7 @@ import (
 	"golang.org/x/tools/go/ast/astutil"
 	"golang.org/x/tools/imports"
 
-	"github.com/99designs/gqlgen/internal/code"
+	"github.com/ssmccoy/gqlgen/internal/code"
 )
 
 // bufPool reuses buffers across Prune calls to reduce allocations.

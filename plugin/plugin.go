@@ -5,8 +5,8 @@ package plugin
 import (
 	"github.com/vektah/gqlparser/v2/ast"
 
-	"github.com/99designs/gqlgen/codegen"
-	"github.com/99designs/gqlgen/codegen/config"
+	"github.com/ssmccoy/gqlgen/codegen"
+	"github.com/ssmccoy/gqlgen/codegen/config"
 )
 
 type Plugin interface {

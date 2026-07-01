@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/99designs/gqlgen/graphql"
+	"github.com/ssmccoy/gqlgen/graphql"
 )
 
 // LogDirective implementation

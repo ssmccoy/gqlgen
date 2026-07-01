@@ -9,8 +9,8 @@ import (
 	"github.com/go-viper/mapstructure/v2"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 
-	"github.com/99designs/gqlgen/graphql"
-	"github.com/99designs/gqlgen/graphql/errcode"
+	"github.com/ssmccoy/gqlgen/graphql"
+	"github.com/ssmccoy/gqlgen/graphql/errcode"
 )
 
 const (

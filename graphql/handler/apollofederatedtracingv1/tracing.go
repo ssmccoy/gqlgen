@@ -8,8 +8,8 @@ import (
 	"github.com/vektah/gqlparser/v2/gqlerror"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/99designs/gqlgen/graphql"
-	tracing_logger "github.com/99designs/gqlgen/graphql/handler/apollofederatedtracingv1/logger"
+	"github.com/ssmccoy/gqlgen/graphql"
+	tracing_logger "github.com/ssmccoy/gqlgen/graphql/handler/apollofederatedtracingv1/logger"
 )
 
 const (

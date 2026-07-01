@@ -5,7 +5,7 @@ import (
 
 	"github.com/vektah/gqlparser/v2/ast"
 
-	"github.com/99designs/gqlgen/graphql/introspection"
+	"github.com/ssmccoy/gqlgen/graphql/introspection"
 )
 
 // ExecutionContextState stores generated execution context dependencies and state.

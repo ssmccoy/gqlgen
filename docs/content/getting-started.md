@@ -24,15 +24,15 @@ cd gqlgen-todos
 go mod init github.com/[username]/gqlgen-todos
 ```
 
-Next, add `github.com/99designs/gqlgen` to your project, as a [tool dependency](https://go.dev/doc/modules/managing-dependencies#tools).
+Next, add `github.com/ssmccoy/gqlgen` to your project, as a [tool dependency](https://go.dev/doc/modules/managing-dependencies#tools).
 
 ```shell
-go get -tool github.com/99designs/gqlgen
+go get -tool github.com/ssmccoy/gqlgen
 ```
 
 By default you'll be using the latest version of gqlgen, but if you want to specify a particular version you can use `go get` (replacing `VERSION` with the particular version desired)
 ```shell
-go get -tool github.com/99designs/gqlgen@VERSION
+go get -tool github.com/ssmccoy/gqlgen@VERSION
 ```
 
 ## Building the server
@@ -199,13 +199,13 @@ And add `Todo` fields resolver config in `gqlgen.yml` to generate resolver for `
 models:
   ID:
     model:
-      - github.com/99designs/gqlgen/graphql.ID
-      - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
-      - github.com/99designs/gqlgen/graphql.Int32
+      - github.com/ssmccoy/gqlgen/graphql.ID
+      - github.com/ssmccoy/gqlgen/graphql.Int
+      - github.com/ssmccoy/gqlgen/graphql.Int64
+      - github.com/ssmccoy/gqlgen/graphql.Int32
   Int:
     model:
-      - github.com/99designs/gqlgen/graphql.Int32
+      - github.com/ssmccoy/gqlgen/graphql.Int32
   Todo:
     fields:
       user:

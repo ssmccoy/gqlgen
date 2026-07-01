@@ -8,9 +8,9 @@ import (
 
 	"github.com/vektah/gqlparser/v2/ast"
 
-	"github.com/99designs/gqlgen/codegen/config"
-	"github.com/99designs/gqlgen/codegen/templates"
-	"github.com/99designs/gqlgen/internal/code"
+	"github.com/ssmccoy/gqlgen/codegen/config"
+	"github.com/ssmccoy/gqlgen/codegen/templates"
+	"github.com/ssmccoy/gqlgen/internal/code"
 )
 
 // embeddedInterfaceGenerator generates Base structs for interfaces to enable embedding.

@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/99designs/gqlgen/codegen/config"
+	"github.com/ssmccoy/gqlgen/codegen/config"
 )
 
 func TestFindBindTarget_Autobind(t *testing.T) {

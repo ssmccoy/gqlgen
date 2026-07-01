@@ -10,7 +10,7 @@ import (
 	"github.com/vektah/gqlparser/v2/ast"
 	"github.com/vektah/gqlparser/v2/validator/rules"
 
-	"github.com/99designs/gqlgen/graphql"
+	"github.com/ssmccoy/gqlgen/graphql"
 )
 
 var schema = gqlparser.MustLoadSchema(

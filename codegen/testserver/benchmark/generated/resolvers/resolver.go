@@ -5,8 +5,8 @@ package resolver
 import (
 	"context"
 
-	"github.com/99designs/gqlgen/codegen/testserver/benchmark/generated"
-	"github.com/99designs/gqlgen/codegen/testserver/benchmark/generated/models"
+	"github.com/ssmccoy/gqlgen/codegen/testserver/benchmark/generated"
+	"github.com/ssmccoy/gqlgen/codegen/testserver/benchmark/generated/models"
 )
 
 type Resolver struct{}

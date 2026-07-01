@@ -1,4 +1,4 @@
-# This is a reproduction of https://github.com/99designs/gqlgen/issues/4053
+# This is a reproduction of https://github.com/ssmccoy/gqlgen/issues/4053
 
 extend type Mutation {
     issue4053(input: Issue4053Input1): Boolean!

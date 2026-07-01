@@ -3,7 +3,7 @@ package unionextension
 import (
 	"io"
 
-	"github.com/99designs/gqlgen/graphql"
+	"github.com/ssmccoy/gqlgen/graphql"
 )
 
 type CachedLike struct{}

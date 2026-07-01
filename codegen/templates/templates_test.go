@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/99designs/gqlgen/internal/code"
+	"github.com/ssmccoy/gqlgen/internal/code"
 )
 
 //go:embed *.gotpl

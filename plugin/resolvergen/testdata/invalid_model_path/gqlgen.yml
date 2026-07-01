@@ -3,4 +3,4 @@ schema:
 
 models:
   Resolver:
-    model: github.com/99designs/invalid/invalid/invalid/nope.Resolver
+    model: github.com/ssmccoy/invalid/invalid/invalid/nope.Resolver

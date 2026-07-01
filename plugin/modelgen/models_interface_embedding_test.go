@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/99designs/gqlgen/codegen/config"
+	"github.com/ssmccoy/gqlgen/codegen/config"
 )
 
 func TestModelGenerationNoDirective(t *testing.T) {
@@ -79,7 +79,7 @@ func TestModelGenerationDirectiveEmbedding(t *testing.T) {
 				require.Contains(
 					t,
 					generated,
-					"github.com/99designs/gqlgen/plugin/modelgen/out_directive_embedding_models",
+					"github.com/ssmccoy/gqlgen/plugin/modelgen/out_directive_embedding_models",
 				)
 			},
 		},

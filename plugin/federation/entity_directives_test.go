@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vektah/gqlparser/v2/ast"
 
-	"github.com/99designs/gqlgen/codegen"
+	"github.com/ssmccoy/gqlgen/codegen"
 )
 
 func TestEntity_HasObjectDirectives(t *testing.T) {

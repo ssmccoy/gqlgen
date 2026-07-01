@@ -11,7 +11,7 @@ import (
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 
-	"github.com/99designs/gqlgen/codegen/config"
+	"github.com/ssmccoy/gqlgen/codegen/config"
 )
 
 type GoFieldType int
@@ -142,7 +142,7 @@ func (o *Object) HasDirectives() bool {
 // InputObjectDirectives returns directives that should be executed at the INPUT_OBJECT level.
 // This is used for input types to execute @directives placed on the input object itself,
 // after all fields have been unmarshaled.
-// See: https://github.com/99designs/gqlgen/issues/2281
+// See: https://github.com/ssmccoy/gqlgen/issues/2281
 func (o *Object) InputObjectDirectives() []*Directive {
 	if o.Kind != ast.InputObject {
 		return nil

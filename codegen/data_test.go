@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/vektah/gqlparser/v2/ast"
 
-	"github.com/99designs/gqlgen/codegen/config"
+	"github.com/ssmccoy/gqlgen/codegen/config"
 )
 
 func TestData_Directives(t *testing.T) {

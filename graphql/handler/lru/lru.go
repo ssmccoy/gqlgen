@@ -5,7 +5,7 @@ import (
 
 	lru "github.com/hashicorp/golang-lru/v2"
 
-	"github.com/99designs/gqlgen/graphql"
+	"github.com/ssmccoy/gqlgen/graphql"
 )
 
 type LRU[T any] struct {

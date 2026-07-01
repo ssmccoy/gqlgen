@@ -170,15 +170,15 @@ autobind:
 models:
   ID:
     model:
-      - github.com/99designs/gqlgen/graphql.ID
-      - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
-      - github.com/99designs/gqlgen/graphql.Int32
+      - github.com/ssmccoy/gqlgen/graphql.ID
+      - github.com/ssmccoy/gqlgen/graphql.Int
+      - github.com/ssmccoy/gqlgen/graphql.Int64
+      - github.com/ssmccoy/gqlgen/graphql.Int32
   # gqlgen provides a default GraphQL UUID convenience wrapper for github.com/google/uuid
   # but you can override this to provide your own GraphQL UUID implementation
   UUID:
     model:
-      - github.com/99designs/gqlgen/graphql.UUID
+      - github.com/ssmccoy/gqlgen/graphql.UUID
 
   # The GraphQL spec explicitly states that the Int type is a signed 32-bit
   # integer. Using Go int or int64 to represent it can lead to unexpected
@@ -191,11 +191,11 @@ models:
   # do not need to worry about interoperability and only expect small numbers.
   Int:
     model:
-      - github.com/99designs/gqlgen/graphql.Int32
+      - github.com/ssmccoy/gqlgen/graphql.Int32
   Int64:
     model:
-      - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/ssmccoy/gqlgen/graphql.Int
+      - github.com/ssmccoy/gqlgen/graphql.Int64
 ```
 
 Everything has defaults, so add things as you need.
@@ -241,7 +241,7 @@ directive @inlineArguments on ARGUMENT_DEFINITION
 > Here be dragons
 >
 > gqlgen doesnt currently support user-configurable directives for SCALAR, ENUM, INTERFACE or UNION. This only works
-> for internal directives. You can track the progress [here](https://github.com/99designs/gqlgen/issues/760)
+> for internal directives. You can track the progress [here](https://github.com/ssmccoy/gqlgen/issues/760)
 
 Now you can use these directives when defining types in your schema:
 
@@ -282,7 +282,7 @@ For a single gqlgen project, what gqlgen config works best really changes at a f
 
 1. quick proof of concept - `single-file` layout
 2. medium-sized team(s) - `follow-schema` layout
-3. many teams - separate schema and resolvers into separate packages as [in this example](https://github.com/99designs/gqlgen/tree/master/_examples/large-project-structure/integration/go.mod) (see below)
+3. many teams - separate schema and resolvers into separate packages as [in this example](https://github.com/ssmccoy/gqlgen/tree/master/_examples/large-project-structure/integration/go.mod) (see below)
 4. very large type systems (more than 65,000 methods) - `use_function_syntax_for_execution_context`
 However, some will instead choose to adopt GraphQL Federation and split into multiple gqlgen instances before one of these growth points is even reached.
 
@@ -299,7 +299,7 @@ DomainB
 ```
 
 After first generating `resolvers` section you can comment out the entire resolver section of the `config.yaml`, so that resolvers are **not** auto-generated so you can then design any desired resolver architecture.
-This idea is from a discussion [https://github.com/99designs/gqlgen/issues/1253](https://github.com/99designs/gqlgen/issues/1253#issuecomment-664448226)
+This idea is from a discussion [https://github.com/ssmccoy/gqlgen/issues/1253](https://github.com/ssmccoy/gqlgen/issues/1253#issuecomment-664448226)
 
 ## Performance optimization options
 
@@ -378,7 +378,7 @@ import (
     "context"
     "fmt"
 
-    "github.com/99designs/gqlgen/graphql"
+    "github.com/ssmccoy/gqlgen/graphql"
     "github.com/vektah/gqlparser/v2/ast"
 
     "myproject/internal/models"
@@ -388,7 +388,7 @@ import (
 import (
     "context"
     "fmt"
-    "github.com/99designs/gqlgen/graphql"
+    "github.com/ssmccoy/gqlgen/graphql"
     "github.com/vektah/gqlparser/v2/ast"
     "myproject/internal/models"
 )

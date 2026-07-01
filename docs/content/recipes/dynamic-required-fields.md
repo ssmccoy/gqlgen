@@ -112,9 +112,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/99designs/gqlgen/graphql"
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/handler/transport"
+	"github.com/ssmccoy/gqlgen/graphql"
+	"github.com/ssmccoy/gqlgen/graphql/handler"
+	"github.com/ssmccoy/gqlgen/graphql/handler/transport"
 
 	"github.com/[username]/gqlgen-todos/graph"
 	"github.com/[username]/gqlgen-todos/graph/model"

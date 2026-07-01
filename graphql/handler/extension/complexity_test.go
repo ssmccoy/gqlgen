@@ -9,10 +9,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/99designs/gqlgen/graphql"
-	"github.com/99designs/gqlgen/graphql/handler/extension"
-	"github.com/99designs/gqlgen/graphql/handler/testserver"
-	"github.com/99designs/gqlgen/graphql/handler/transport"
+	"github.com/ssmccoy/gqlgen/graphql"
+	"github.com/ssmccoy/gqlgen/graphql/handler/extension"
+	"github.com/ssmccoy/gqlgen/graphql/handler/testserver"
+	"github.com/ssmccoy/gqlgen/graphql/handler/transport"
 )
 
 func TestHandlerComplexity(t *testing.T) {

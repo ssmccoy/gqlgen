@@ -8,16 +8,16 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/99designs/gqlgen/internal/code"
+	"github.com/ssmccoy/gqlgen/internal/code"
 )
 
 func TestImports(t *testing.T) {
 	wd, err := os.Getwd()
 	require.NoError(t, err)
 
-	aBar := "github.com/99designs/gqlgen/codegen/templates/testdata/a/bar"
-	bBar := "github.com/99designs/gqlgen/codegen/templates/testdata/b/bar"
-	mismatch := "github.com/99designs/gqlgen/codegen/templates/testdata/pkg_mismatch"
+	aBar := "github.com/ssmccoy/gqlgen/codegen/templates/testdata/a/bar"
+	bBar := "github.com/ssmccoy/gqlgen/codegen/templates/testdata/b/bar"
+	mismatch := "github.com/ssmccoy/gqlgen/codegen/templates/testdata/pkg_mismatch"
 
 	t.Run("multiple lookups is ok", func(t *testing.T) {
 		a := Imports{destDir: wd, packages: code.NewPackages()}
@@ -30,7 +30,7 @@ func TestImports(t *testing.T) {
 		a := Imports{destDir: wd, packages: code.NewPackages()}
 
 		pkg := types.NewPackage(
-			"github.com/99designs/gqlgen/codegen/templates/testdata/b/bar",
+			"github.com/ssmccoy/gqlgen/codegen/templates/testdata/b/bar",
 			"bar",
 		)
 		typ := types.NewNamed(
@@ -56,7 +56,7 @@ func TestImports(t *testing.T) {
 	t.Run("duplicates above 10 are decollisioned", func(t *testing.T) {
 		a := Imports{destDir: wd, packages: code.NewPackages()}
 		for i := range 100 {
-			cBar := fmt.Sprintf("github.com/99designs/gqlgen/codegen/templates/testdata/%d/bar", i)
+			cBar := fmt.Sprintf("github.com/ssmccoy/gqlgen/codegen/templates/testdata/%d/bar", i)
 			if i > 0 {
 				require.Equal(t, fmt.Sprintf("bar%d", i), a.Lookup(cBar))
 			} else {
@@ -79,9 +79,9 @@ func TestImports(t *testing.T) {
 
 		require.Equal(
 			t,
-			`"github.com/99designs/gqlgen/codegen/templates/testdata/a/bar"
-bar1 "github.com/99designs/gqlgen/codegen/templates/testdata/b/bar"
-turtles "github.com/99designs/gqlgen/codegen/templates/testdata/pkg_mismatch"`,
+			`"github.com/ssmccoy/gqlgen/codegen/templates/testdata/a/bar"
+bar1 "github.com/ssmccoy/gqlgen/codegen/templates/testdata/b/bar"
+turtles "github.com/ssmccoy/gqlgen/codegen/templates/testdata/pkg_mismatch"`,
 			a.String(),
 		)
 	})
@@ -92,7 +92,7 @@ turtles "github.com/99designs/gqlgen/codegen/templates/testdata/pkg_mismatch"`,
 		_, _ = a.Reserve(aBar, "abar")
 		_, _ = a.Reserve(bBar, "bbar")
 
-		require.Equal(t, `abar "github.com/99designs/gqlgen/codegen/templates/testdata/a/bar"
-bbar "github.com/99designs/gqlgen/codegen/templates/testdata/b/bar"`, a.String())
+		require.Equal(t, `abar "github.com/ssmccoy/gqlgen/codegen/templates/testdata/a/bar"
+bbar "github.com/ssmccoy/gqlgen/codegen/templates/testdata/b/bar"`, a.String())
 	})
 }

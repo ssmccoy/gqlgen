@@ -13,8 +13,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/99designs/gqlgen/graphql/handler/testserver"
-	"github.com/99designs/gqlgen/graphql/handler/transport"
+	"github.com/ssmccoy/gqlgen/graphql/handler/testserver"
+	"github.com/ssmccoy/gqlgen/graphql/handler/transport"
 )
 
 func TestMultipartMixed(t *testing.T) {

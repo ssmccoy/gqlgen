@@ -3,7 +3,7 @@ package graph
 import (
 	"context"
 
-	"github.com/99designs/gqlgen/_examples/large-project-structure/main/graph/model"
+	"github.com/ssmccoy/gqlgen/_examples/large-project-structure/main/graph/model"
 )
 
 // This file will not be regenerated automatically.

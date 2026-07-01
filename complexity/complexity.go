@@ -5,7 +5,7 @@ import (
 
 	"github.com/vektah/gqlparser/v2/ast"
 
-	"github.com/99designs/gqlgen/graphql"
+	"github.com/ssmccoy/gqlgen/graphql"
 )
 
 func Calculate(

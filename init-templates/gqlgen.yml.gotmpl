@@ -167,15 +167,15 @@ autobind:
 models:
   ID:
     model:
-      - github.com/99designs/gqlgen/graphql.ID
-      - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
-      - github.com/99designs/gqlgen/graphql.Int32
+      - github.com/ssmccoy/gqlgen/graphql.ID
+      - github.com/ssmccoy/gqlgen/graphql.Int
+      - github.com/ssmccoy/gqlgen/graphql.Int64
+      - github.com/ssmccoy/gqlgen/graphql.Int32
   # gqlgen provides a default GraphQL UUID convenience wrapper for github.com/google/uuid 
   # but you can override this to provide your own GraphQL UUID implementation
   UUID:
     model:
-      - github.com/99designs/gqlgen/graphql.UUID
+      - github.com/ssmccoy/gqlgen/graphql.UUID
 
   # The GraphQL spec explicitly states that the Int type is a signed 32-bit
   # integer. Using Go int or int64 to represent it can lead to unexpected
@@ -188,8 +188,8 @@ models:
   # do not need to worry about interoperability and only expect small numbers.
   Int:
     model:
-      - github.com/99designs/gqlgen/graphql.Int32
+      - github.com/ssmccoy/gqlgen/graphql.Int32
   Int64:
     model:
-      - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/ssmccoy/gqlgen/graphql.Int
+      - github.com/ssmccoy/gqlgen/graphql.Int64

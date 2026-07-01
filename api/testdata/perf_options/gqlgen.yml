@@ -25,22 +25,22 @@ use_buffer_pooling: true
 
 # Autobind to the model package - gqlgen should detect types here
 autobind:
-  - "github.com/99designs/gqlgen/api/testdata/perf_options/graph/model"
+  - "github.com/ssmccoy/gqlgen/api/testdata/perf_options/graph/model"
 
 # Map LocationInfo to the external package
 models:
   ID:
     model:
-      - github.com/99designs/gqlgen/graphql.ID
-      - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
-      - github.com/99designs/gqlgen/graphql.Int32
+      - github.com/ssmccoy/gqlgen/graphql.ID
+      - github.com/ssmccoy/gqlgen/graphql.Int
+      - github.com/ssmccoy/gqlgen/graphql.Int64
+      - github.com/ssmccoy/gqlgen/graphql.Int32
   Int:
     model:
-      - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
-      - github.com/99designs/gqlgen/graphql.Int32
+      - github.com/ssmccoy/gqlgen/graphql.Int
+      - github.com/ssmccoy/gqlgen/graphql.Int64
+      - github.com/ssmccoy/gqlgen/graphql.Int32
   LocationInfo:
     model:
-      - github.com/99designs/gqlgen/api/testdata/perf_options/external.LocationInfo
+      - github.com/ssmccoy/gqlgen/api/testdata/perf_options/external.LocationInfo
 

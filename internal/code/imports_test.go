@@ -17,7 +17,7 @@ func TestExtractModuleName(t *testing.T) {
 	modDir := filepath.Join(wd, "..", "..", "testdata")
 	content, err := os.ReadFile(filepath.Join(modDir, "gomod-with-leading-comments.mod"))
 	require.NoError(t, err)
-	assert.Equal(t, "github.com/99designs/gqlgen", extractModuleName(content))
+	assert.Equal(t, "github.com/ssmccoy/gqlgen", extractModuleName(content))
 }
 
 func TestImportPathForDir(t *testing.T) {
@@ -25,26 +25,26 @@ func TestImportPathForDir(t *testing.T) {
 
 	require.NoError(t, err)
 
-	assert.Equal(t, "github.com/99designs/gqlgen/internal/code", ImportPathForDir(wd))
+	assert.Equal(t, "github.com/ssmccoy/gqlgen/internal/code", ImportPathForDir(wd))
 
-	assert.Equal(t, "github.com/99designs/gqlgen/internal/code", ImportPathForDir(wd))
+	assert.Equal(t, "github.com/ssmccoy/gqlgen/internal/code", ImportPathForDir(wd))
 	assert.Equal(
 		t,
-		"github.com/99designs/gqlgen/api",
+		"github.com/ssmccoy/gqlgen/api",
 		ImportPathForDir(filepath.Join(wd, "..", "..", "api")),
 	)
 
 	// doesnt contain go code, but should still give a valid import path
 	assert.Equal(
 		t,
-		"github.com/99designs/gqlgen/docs",
+		"github.com/ssmccoy/gqlgen/docs",
 		ImportPathForDir(filepath.Join(wd, "..", "..", "docs")),
 	)
 
 	// directory does not exist
 	assert.Equal(
 		t,
-		"github.com/99designs/gqlgen/dos",
+		"github.com/ssmccoy/gqlgen/dos",
 		ImportPathForDir(filepath.Join(wd, "..", "..", "dos")),
 	)
 

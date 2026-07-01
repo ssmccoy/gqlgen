@@ -7,7 +7,7 @@ import (
 	"github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 
-	"github.com/99designs/gqlgen/codegen/config"
+	"github.com/ssmccoy/gqlgen/codegen/config"
 )
 
 // TestGenerateCodeIncremental_SelectiveGeneration verifies that incremental generation

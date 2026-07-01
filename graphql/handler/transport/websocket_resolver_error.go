@@ -50,7 +50,7 @@ type subscriptionError struct {
 //		return ch, nil
 //	}
 //
-// see https://github.com/99designs/gqlgen/pull/2506 for more details
+// see https://github.com/ssmccoy/gqlgen/pull/2506 for more details
 func AddSubscriptionError(ctx context.Context, err *gqlerror.Error) {
 	subscriptionErrStruct := getSubscriptionErrorStruct(ctx)
 	subscriptionErrStruct.errs = append(subscriptionErrStruct.errs, err)

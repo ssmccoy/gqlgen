@@ -10,10 +10,10 @@ directive @goEnum(value: String) on ENUM_VALUE
 scalar Date
 
 # Enum for user roles
-enum Role @goModel(model: "github.com/99designs/gqlgen/codegen/testserver/usefunctionsyntaxforexecutioncontext.RoleModel") {
-  ADMIN @goEnum(value: "github.com/99designs/gqlgen/codegen/testserver/usefunctionsyntaxforexecutioncontext.RoleModelAdmin")
-  USER @goEnum(value: "github.com/99designs/gqlgen/codegen/testserver/usefunctionsyntaxforexecutioncontext.RoleModelUser")
-  GUEST @goEnum(value: "github.com/99designs/gqlgen/codegen/testserver/usefunctionsyntaxforexecutioncontext.RoleModelGuest")
+enum Role @goModel(model: "github.com/ssmccoy/gqlgen/codegen/testserver/usefunctionsyntaxforexecutioncontext.RoleModel") {
+  ADMIN @goEnum(value: "github.com/ssmccoy/gqlgen/codegen/testserver/usefunctionsyntaxforexecutioncontext.RoleModelAdmin")
+  USER @goEnum(value: "github.com/ssmccoy/gqlgen/codegen/testserver/usefunctionsyntaxforexecutioncontext.RoleModelUser")
+  GUEST @goEnum(value: "github.com/ssmccoy/gqlgen/codegen/testserver/usefunctionsyntaxforexecutioncontext.RoleModelGuest")
 }
 
 # Interface representing an Entity with common fields

@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/99designs/gqlgen/graphql/handler/testserver"
-	"github.com/99designs/gqlgen/graphql/handler/transport"
+	"github.com/ssmccoy/gqlgen/graphql/handler/testserver"
+	"github.com/ssmccoy/gqlgen/graphql/handler/transport"
 )
 
 func TestGRAPHQL(t *testing.T) {

@@ -15,9 +15,9 @@ import (
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 
-	"github.com/99designs/gqlgen/codegen/config"
-	"github.com/99designs/gqlgen/codegen/templates"
-	"github.com/99designs/gqlgen/internal/code"
+	"github.com/ssmccoy/gqlgen/codegen/config"
+	"github.com/ssmccoy/gqlgen/codegen/templates"
+	"github.com/ssmccoy/gqlgen/internal/code"
 )
 
 const federationRequiresArgName = "_federationRequires"
@@ -125,7 +125,7 @@ func (b *builder) bindField(obj *Object, f *Field) (errret error) {
 			}
 			// Filter out INPUT_OBJECT directives from type references - they should
 			// only be executed on the input object itself, not on fields that use the type.
-			// See: https://github.com/99designs/gqlgen/issues/2281
+			// See: https://github.com/ssmccoy/gqlgen/issues/2281
 			filteredDirs := make([]*Directive, 0, len(dirs))
 			for _, dir := range dirs {
 				if !dir.IsLocation(ast.LocationInputObject) {

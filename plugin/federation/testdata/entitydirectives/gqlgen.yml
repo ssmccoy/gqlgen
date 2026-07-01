@@ -13,7 +13,7 @@ federation:
 
 models:
   _FieldSet:
-    model: github.com/99designs/gqlgen/graphql.String
+    model: github.com/ssmccoy/gqlgen/graphql.String
 
 directives:
   guard:

@@ -12,6 +12,6 @@ set -o pipefail
 # set -o pipefail: If any command in a pipeline fails, use that return code for whole pipeline instead of final success
 
 
-gci write -s standard -s default -s "prefix(github.com/99designs)" --skip-generated .
+gci write -s standard -s default -s "prefix(github.com/ssmccoy)" --skip-generated .
 gofumpt -w .
 go generate ./...

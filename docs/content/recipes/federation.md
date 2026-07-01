@@ -6,7 +6,7 @@ menu: { main: { parent: "recipes" } }
 ---
 
 In this quick guide we are going to implement the example [Apollo Federation](https://www.apollographql.com/docs/apollo-server/federation/introduction/)
-server in gqlgen. You can find the finished result in the [examples directory](https://github.com/99designs/gqlgen/tree/master/_examples/federation).
+server in gqlgen. You can find the finished result in the [examples directory](https://github.com/ssmccoy/gqlgen/tree/master/_examples/federation).
 
 ## Enable federation
 
@@ -357,7 +357,7 @@ type User @key(fields: "id") @entityResolver(multi: true) {
 After defining your schema, regenerate the code:
 
 ```bash
-go run github.com/99designs/gqlgen
+go run github.com/ssmccoy/gqlgen
 ```
 
 ### Implementation

@@ -1,7 +1,7 @@
 package server
 
 import (
-	"github.com/99designs/gqlgen/_examples/federation/accounts/graph"
+	"github.com/ssmccoy/gqlgen/_examples/federation/accounts/graph"
 )
 
 const DefaultPort = "4001"

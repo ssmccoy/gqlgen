@@ -1,11 +1,11 @@
-module github.com/99designs/gqlgen/_examples
+module github.com/ssmccoy/gqlgen/_examples
 
 go 1.25.0
 
-replace github.com/99designs/gqlgen => ../
+replace github.com/ssmccoy/gqlgen => ../
 
 require (
-	github.com/99designs/gqlgen v0.17.90
+	github.com/ssmccoy/gqlgen v0.17.90
 	github.com/coder/websocket v1.8.15
 	github.com/go-viper/mapstructure/v2 v2.5.0
 	github.com/goccy/go-yaml v1.19.2

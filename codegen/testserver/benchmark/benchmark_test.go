@@ -6,10 +6,10 @@ import (
 	"context"
 	"testing"
 
-	"github.com/99designs/gqlgen/codegen/testserver/benchmark/generated"
-	"github.com/99designs/gqlgen/codegen/testserver/benchmark/generated/models"
-	"github.com/99designs/gqlgen/graphql"
-	"github.com/99designs/gqlgen/graphql/executor"
+	"github.com/ssmccoy/gqlgen/codegen/testserver/benchmark/generated"
+	"github.com/ssmccoy/gqlgen/codegen/testserver/benchmark/generated/models"
+	"github.com/ssmccoy/gqlgen/graphql"
+	"github.com/ssmccoy/gqlgen/graphql/executor"
 )
 
 func BenchmarkResolvers(b *testing.B) {

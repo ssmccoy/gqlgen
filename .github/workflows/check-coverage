@@ -32,7 +32,7 @@ echo "Installing goveralls latest"
 go install github.com/mattn/goveralls@latest
 echo "Collecting Test Package List"
 # ${SED_COMMAND} 's/^\|$/"/g'|
-pkgs="$(go list github.com/99designs/gqlgen/... 2> /dev/null | grep -v "integration" | grep -v "_examples" |grep -v "plugin/resolvergen/testdata" | grep -v "plugin/federation/testdata" | grep -v "plugin/resolvergen/testdata" | grep -v "invalid-packagename" | grep -v "generated-default")"
+pkgs="$(go list github.com/ssmccoy/gqlgen/... 2> /dev/null | grep -v "integration" | grep -v "_examples" |grep -v "plugin/resolvergen/testdata" | grep -v "plugin/federation/testdata" | grep -v "plugin/resolvergen/testdata" | grep -v "invalid-packagename" | grep -v "generated-default")"
 
 deps=$(echo "${pkgs}" | tr ' ' ",")
 # -covermode atomic

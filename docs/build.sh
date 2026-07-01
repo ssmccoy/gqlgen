@@ -9,7 +9,7 @@ GREEN='\033[32;1m'
 RESET='\033[0m'
 HOST=https://gqlgen.com
 
-IFS=$'\n' read -r -d '' -a VERSIONS_ARRAY < <(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/99designs/gqlgen/releases?per_page=20" | jq -r '.[].tag_name' ) || true
+IFS=$'\n' read -r -d '' -a VERSIONS_ARRAY < <(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/ssmccoy/gqlgen/releases?per_page=20" | jq -r '.[].tag_name' ) || true
 
 VERSIONS_ARRAY+=( "origin/master" )
 
@@ -40,7 +40,7 @@ rebuild() {
 currentBranch=$(git rev-parse --abbrev-ref HEAD)
 
 if ! git remote  | grep -q origin ; then
-    git remote add origin https://github.com/99designs/gqlgen
+    git remote add origin https://github.com/ssmccoy/gqlgen
 fi
 git fetch origin --tags
 

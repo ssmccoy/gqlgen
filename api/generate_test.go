@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/vektah/gqlparser/v2/ast"
 
-	"github.com/99designs/gqlgen/codegen/config"
+	"github.com/ssmccoy/gqlgen/codegen/config"
 )
 
 func cleanup(workDir string) {
@@ -178,7 +178,7 @@ func TestPerformanceOptionsWithAutobind(t *testing.T) {
 	require.NotContains(
 		t,
 		contentStr,
-		`"github.com/99designs/gqlgen/api/testdata/perf_options/external"`,
+		`"github.com/ssmccoy/gqlgen/api/testdata/perf_options/external"`,
 		"models_gen.go should not import external package - this would cause an import cycle",
 	)
 

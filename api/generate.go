@@ -7,13 +7,13 @@ import (
 
 	"golang.org/x/tools/imports"
 
-	"github.com/99designs/gqlgen/codegen"
-	"github.com/99designs/gqlgen/codegen/config"
-	"github.com/99designs/gqlgen/internal/code"
-	"github.com/99designs/gqlgen/plugin"
-	"github.com/99designs/gqlgen/plugin/federation"
-	"github.com/99designs/gqlgen/plugin/modelgen"
-	"github.com/99designs/gqlgen/plugin/resolvergen"
+	"github.com/ssmccoy/gqlgen/codegen"
+	"github.com/ssmccoy/gqlgen/codegen/config"
+	"github.com/ssmccoy/gqlgen/internal/code"
+	"github.com/ssmccoy/gqlgen/plugin"
+	"github.com/ssmccoy/gqlgen/plugin/federation"
+	"github.com/ssmccoy/gqlgen/plugin/modelgen"
+	"github.com/ssmccoy/gqlgen/plugin/resolvergen"
 )
 
 var (

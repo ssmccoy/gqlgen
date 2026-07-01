@@ -38,7 +38,7 @@ input TodoInput {
     text: String!
     "Is it done already?"
     done: Boolean
-    number: Int! @goField(type:"github.com/99designs/gqlgen/_examples/todo.Number")
+    number: Int! @goField(type:"github.com/ssmccoy/gqlgen/_examples/todo.Number")
 }
 
 scalar Map

@@ -7,7 +7,7 @@ Example server app using websocket `InitFunc`.
 First get an update from gqlgen:  
 ```bash
 go mod tidy
-go get -u github.com/99designs/gqlgen
+go get -u github.com/ssmccoy/gqlgen
 ```
 
 Next just make the build:  

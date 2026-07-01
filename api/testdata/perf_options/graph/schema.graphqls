@@ -6,7 +6,7 @@ directive @goModel(model: String, models: [String!]) on OBJECT | INPUT_OBJECT | 
 
 # LocationInfo is mapped to an external package via @goModel
 # This tests that type mapping works correctly with optimization options
-type LocationInfo @goModel(model: "github.com/99designs/gqlgen/api/testdata/perf_options/external.LocationInfo") {
+type LocationInfo @goModel(model: "github.com/ssmccoy/gqlgen/api/testdata/perf_options/external.LocationInfo") {
   country: String!
   city: String!
   latitude: Float!
